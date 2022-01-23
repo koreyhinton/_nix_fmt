@@ -1,2 +1,4 @@
 _nix_fmt.js -- a simple text formatter function for JavaScript
 Copyright 2022 Korey Hinton
+
+This is JS port of GNU fmt -- simple text formatter (git.sv.gnu.org/coreutils)

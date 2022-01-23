@@ -1,0 +1,79 @@
+#!/bin/bash
+
+# Copyright 2022 Korey Hinton
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+# if [[ "$2" = "32768" ]]; then
+#    echo "fmt: invalid width: '32768'" 1>&2
+#    exit 1;
+# fi
+# if [[ "$2" = "2147483647" ]]; then
+#    echo "fmt: invalid width: '2147483647'" 1>&2
+#    exit 1;
+# fi
+# if [[ "$2" = "ç" ]]; then
+#     echo "ça b"
+#     # echo "ça b"$'\n'
+#     exit 0;
+# fi
+# if [[ "$1" = "-72x" ]]; then
+#     echo "fmt: invalid width: '72x'" 1>&2
+#     exit 1;
+# fi
+# if [[ "$1" = "no-such-file" ]]; then
+#     echo "fmt: cannot open 'no-such-file' for reading: No such file or directory" 1>&2
+#     exit 1
+# fi
+# if [[ "$2" = "-72" ]]; then
+#     echo "fmt: invalid option -- 7; -WIDTH is recognized only when it is the first" 1>&2
+#     echo "option; use -w N instead" 1>&2
+#     echo "Try 'fmt --help' for more information." 1>&2
+#     exit 1
+# fi
+# if [[ "$1" = "-p" && "${2:0:1}" = '>' ]]; then
+#     if [[ "${3:0:8}" = "pfx-only" ]]; then
+#         echo ">"
+#         exit 0
+#     fi
+#     echo $' 1\n  2\n\t3\n\t\t4\n> quoted text'
+#     exit 0
+# fi
+# if [[ "$2" = "foo" ]]; then
+#     echo "fo";
+#     exit 0
+# fi
+
+param1=
+lastarg=
+for arg in "$@"
+do
+    if [ -z "$param1" ]; then
+        param1="$lastarg"
+    else
+        param1="${param1} ${lastarg}"
+    fi
+    lastarg="$arg"
+done
+param2=""
+if [[ -e "$lastarg" ]]; then
+    param2="$(cat ""$lastarg"")"
+else
+    param1="${param1} ${lastarg}"
+fi
+
+echo "console.log(_nix_fmt(\`${param1}\`, \`${param2}\`));" >js
+
+cat ../_nix_fmt.js js | nodejs
+exit $?
