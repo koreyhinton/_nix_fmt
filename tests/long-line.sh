@@ -82,7 +82,7 @@ EOF
 # fmt -s in > out || fail=1
 txt="$(cat in)"
 echo "console.log(_nix_fmt('-s', \`${txt}\`));" >js
-cat ../_nix_fmt.js js | nodejs > out
+cat ../_nix_fmt.js js | nodejs > out || exit 1
 
 # compare exp out || fail=1
 fail=$(diff exp out | wc -l)
